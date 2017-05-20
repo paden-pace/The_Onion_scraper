@@ -1,0 +1,34 @@
+{
+  "name": "mongo_scraper",
+  "version": "1.0.0",
+  "description": "scrapes a site and allows for comments",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/paden-pace/mongo_scraper.git"
+  },
+  "keywords": [
+    "cheerio",
+    "mongodb",
+    "mongoose",
+    "express",
+    "node.js"
+  ],
+  "author": "Paden J. Pace",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/paden-pace/mongo_scraper/issues"
+  },
+  "homepage": "https://github.com/paden-pace/mongo_scraper#readme",
+  "dependencies": {
+    "body-parser": "^1.17.2",
+    "cheerio": "^0.22.0",
+    "express": "^4.15.3",
+    "express-handlebars": "^3.0.0",
+    "mongoose": "^4.10.0",
+    "request": "^2.81.0"
+  }
+}
