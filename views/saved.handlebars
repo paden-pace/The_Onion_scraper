@@ -1,0 +1,27 @@
+<div class="jumbotron">
+    <h1>The Onion Peeler</h1>
+    <p class="lead">Add comments to any of the saved articles below.</p>
+    <p class="lead">Or use the navigation bar to go to the home page.</p>
+</div>
+
+<div class="all-div">
+    {{#each articles}}
+        <div class="article-div" >
+            <h2 class="article-title">{{this.title}}</h2>
+            <h3 class="article-link">{{this.link}}</h3>
+            <form action="/{{this.id}}?_method=PUT" method="POST">
+            <input type="text" name="add-comment" value="true" placeholder="New Comment">
+            <button type="submit" class="add-btn">Add Comment</button>
+
+            {{#each comments}}
+            <div class="comment-div">
+                <h4 class="article-title">{{this.title}}</h4>
+                <p class="article-title">{{this.title}}</[]
+                <input type="hidden" name="delete-comment" value="true">
+                <button type="submit" class="delete-btn">Delete Comment</button>
+                </form>
+            </div>
+            {{/each}}
+        </div>
+    {{/each}}
+</div>

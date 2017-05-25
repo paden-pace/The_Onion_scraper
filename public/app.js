@@ -22,6 +22,8 @@ $(document).on("click", "#scrape-btn", function (){
         $("articles").empty();
         // Display the apropos information on the page
         $("#articles").append("<p data-id='" + data[i]._id + "'>" + data[i].title + "<br />" + data[i].link + "</p>");
+        // A button to save a new article, with the id of the article saved to it
+      $("#articles").append("<button data-id='" + data[i]._id + "' id='savearticle'>Save Article</button>");
     }
     });
 })
@@ -59,6 +61,37 @@ $(document).on("click", "p", function() {
       }
     });
 });
+
+// When you click the savearticle button
+$(document).on("click", "#savearticle", function() {
+  // Grab the id associated with the article from the submit button
+  
+  var thisId = $(this).attr("data-id");
+  console.log(thisId)
+//   // Run a POST request to change the comment, using what's entered in the inputs
+//   $.ajax({
+//     method: "POST",
+//     url: "/articles/" + thisId,
+//     data: {
+//       // Value taken from title input
+//       title: $("#titleinput").val(),
+//       // Value taken from comment textarea
+//       body: $("#bodyinput").val()
+//     }
+//   })
+//     // With that done
+//     .done(function(data) {
+//       // Log the response
+//       console.log(data);
+//       // Empty the comments section
+//       $("#comments").empty();
+//     });
+
+//   // Also, remove the values entered in the input and textarea for comment entry
+//   $("#titleinput").val("");
+//   $("#bodyinput").val("");
+});
+
 
 // When you click the savecomment button
 $(document).on("click", "#savecomment", function() {
