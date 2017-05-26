@@ -9,7 +9,11 @@
         <div class="article-div" >
             <h3 class="article-title">{{this.title}}</h3>
             <h4 class="article-link">{{this.link}}</h4>
-            <button data-id='{{this.id}}' id='savearticle'>Save Article</button>
+
+            <form action="/{{this.id}}?_method=PUT" method="POST">
+            <input type="hidden" name="save" value="true">
+            <button type="submit">Save</button>
+            </form>
         </div>
     {{/each}}
 </div>

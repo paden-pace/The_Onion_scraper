@@ -10,7 +10,7 @@
             <h2 class="article-title">{{this.title}}</h2>
             <h3 class="article-link">{{this.link}}</h3>
             <form action="/{{this.id}}?_method=PUT" method="POST">
-            <input type="text" name="add-comment" value="true" placeholder="New Comment">
+            <input type="text" name="add-comment" placeholder="New Comment">
             <button type="submit" class="add-btn">Add Comment</button>
 
             {{#each comments}}

@@ -1,9 +1,17 @@
-
+// Dependencies
 var express = require("express");
+var bodyParser = require("body-parser");
+var logger = require("morgan");
+var path = require('path');
 
-var router = express.Router();
+var mongoose = require("mongoose");
+var Comment = require("../models/Comment.js");
+var Article = require("../models/Article.js");
+var Savedarticle = require("../models/Savedarticle.js");
 
-var express = require('express');
+var request = require('request');
+var cheerio = require('cheerio');
+
 var router = express.Router();
 
 // Get Homepage
@@ -11,16 +19,29 @@ router.get('/saved', function(req,res){
     res.render('saved');
 });
 
-router.get('/homepage', function(req,res){
-    res.render('scraped');
+router.get('/', function(req,res){
+    res.render('home');
 });
 
+router.get('/scraped', function(req,res){
+
+    Article.find({}, function(error, doc) {
+        // Send any errors to the browser
+        if (error) {
+        res.send(error);
+        }
+        // Or send the doc to the articles in handlebars
+        else {
+        res.render("scraped", { articles: doc });
+        }
+    });
+});
 
 // A GET request to scrape the echojs website
 router.get("/scrape", function(req, res) {
 
-  // reset newArticles array
-  newArticles = [];
+    console.log("Scrape in Routes reached.")
+
   // First, we grab the body of the html with request
   request("http://www.echojs.com/", function(error, response, html) {
     // Then, we load that into cheerio and save it to $ for a shorthand selector
@@ -43,37 +64,21 @@ router.get("/scrape", function(req, res) {
       console.log("Entry: ");
       console.log(entry);
       console.log("-------------------------------------");
-      
-      newArticles.push(entry);
 
-
-      // router.get("/", function(req, res) {
-      //   burger.all(function(data) {
-      //     var hbsObject = {
-      //       burgers: data
-      //     };
-      //     console.log(hbsObject);
-      //     res.render("index", hbsObject);
-      //   });
-      // });
-
-
-      // // Now, save that entry to the db
-      // entry.save(function(err, doc) {
-      //   // Log any errors
-      //   if (err) {
-      //     console.log(err);
-      //   }
-      //   // Or log the doc
-      //   else {
-      //     console.log(doc);
-      //   }
-      // });
+      // Now, save that entry to the db
+      entry.save(function(err, doc) {
+        // Log any errors
+        if (err) {
+          console.log(err);
+        }
+        // Or log the doc
+        else {
+          console.log(doc);
+        }
+      });
     });
-    var hbsObject = {
-      articles: newArticles
-    };
-    res.render("scraped", hbsObject);
+    
+    res.redirect('/scraped');
 
   });
   // Tell the browser that we finished scraping the text
@@ -81,41 +86,73 @@ router.get("/scrape", function(req, res) {
 });
 
 
-// // This will get the articles we scraped from the mongoDB
-// app.get("/articles", function(req, res) {
+// This will get the articles we scraped from the mongoDB
+router.get("/articles", function(req, res) {
 
-//   // Using our Article model, "find" every article in our article db
-//   Article.find({}, function(error, doc) {
-//     // Send any errors to the browser
-//     if (error) {
-//       res.send(error);
-//     }
-//     // Or send the doc to the browser
-//     else {
-//       res.send(doc);
+  // Using our Article model, "find" every article in our article db
+  Article.find({}, function(error, doc) {
+    // Send any errors to the browser
+    if (error) {
+      res.send(error);
+    }
+    // Or send the doc to the browser
+    else {
+      res.send(doc);
+    }
+  });
+});
+
+
+// // Create a new note or replace an existing note
+// router.post("/:id", function(req, res) {
+
+
+//     console.log("========================================================");
+//     console.log("req.body");
+//     console.log(req.body);
+// //   // Create a new note and pass the req.body to the entry
+// //   var newSavedarticle = new Savedarticle(req.body);
+
+// //   // And save the new note the db
+// //   newSavedarticle.save(function(error, doc) {
+// //     // Log any errors
+// //     if (error) {
+// //         console.log(error);
+// //     }
+// //     // Otherwise
+// //     else {
+// //         console.log(doc);
+// //     }
+// //   });
+// });
+
+
+
+
+// This will grab an article by it's ObjectId
+router.post("/:id", function(req, res) {
+    Article.find({id: req.params.id}, function(error, found){
+          // Show any erros
+        if(error){
+        console.log(error);
+        } else {
+        res.json(found);
+        console.log(found.title);
+        }
+    });
+  })
+
+// // Find all books marked as unread
+// app.get("/unread", function(req, res) {
+//   db.books.find({"read":false}, function(error, found){
+//     // Show any erros
+//     if(error){
+//       console.log(error);
+//     } else {
+//       res.json(found)
 //     }
 //   });
 // });
-
-// // This will grab an article by it's ObjectId
-// app.get("/articles/:id", function(req, res) {
-
- 
-//   Article.find({id: req.params.id})
-//     // and run the populate method with "comments",
-//     .populate("comments")
-//     // then responds with the article with the comments included
-//     .exec(function(error, doc) {
-//       // Send any errors to the browser
-//       if (error) {
-//         res.send(error);
-//       }
-//       else {
-//         res.send(doc);
-//       }
-//     });
-// });
-
 // // Create a new comment or replace an existing comment
 // app.post("/articles/:id", function(req, res) {
 
