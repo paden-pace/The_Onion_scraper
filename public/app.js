@@ -36,14 +36,34 @@ $(document).on("click", "#savearticle", function() {
   console.log("thisId");
   console.log(thisId);
   $.ajax({
-    method: "GET",
+    method: "POST",
     url: "/articles/" + thisId
   })
     // With that done, add the comment information to the page
     .done(function(data) {
+        console.log("data");
         console.log(data);
     });
 });
+
+// When you click the savearticle button
+$(document).on("click", "#deletearticle", function() {
+  // Grab the id associated with the article from the submit button
+  
+  var thisId = $(this).attr("data-id");
+  console.log("thisId");
+  console.log(thisId);
+  $.ajax({
+    method: "GET",
+    url: "/delete/" + thisId
+  })
+    // With that done, add the comment information to the page
+    .done(function(data) {
+        console.log("data");
+        console.log(data);
+    });
+});
+
 
 
 // Whenever someone clicks a p tag
@@ -82,19 +102,19 @@ $(document).on("click", "p", function() {
 
 
 // When you click the savecomment button
-$(document).on("click", "#savecomment", function() {
+$(document).on("click", ".add-comment-btn", function() {
   // Grab the id associated with the article from the submit button
   var thisId = $(this).attr("data-id");
 
   // Run a POST request to change the comment, using what's entered in the inputs
   $.ajax({
     method: "POST",
-    url: "/articles/" + thisId,
+    url: "/comments/" + thisId,
     data: {
       // Value taken from title input
-      title: $("#titleinput").val(),
+      title: $("#titleinput"+thisId).val(),
       // Value taken from comment textarea
-      body: $("#bodyinput").val()
+      body: $("#bodyinput"+thisId).val()
     }
   })
     // With that done
@@ -102,10 +122,6 @@ $(document).on("click", "#savecomment", function() {
       // Log the response
       console.log(data);
       // Empty the comments section
-      $("#comments").empty();
     });
 
-  // Also, remove the values entered in the input and textarea for comment entry
-  $("#titleinput").val("");
-  $("#bodyinput").val("");
 });

@@ -9,16 +9,17 @@
         <div class="article-div" >
             <h2 class="article-title">{{this.title}}</h2>
             <h3 class="article-link">{{this.link}}</h3>
-            <form action="/{{this.id}}?_method=PUT" method="POST">
-            <input type="text" name="add-comment" placeholder="New Comment">
-            <button type="submit" class="add-btn">Add Comment</button>
+            <button data-id='{{this.id}}' id='deletearticle'>Delete Article</button>
+            <input id='titleinput-{{this.id}}' name='title' placeholder="New Comment Title">
+            <textarea id='bodyinput-{{this.id}}' name='body' placeholder="New Comment Body"></textarea>
+            <button data-id="{{this.id}}" type="submit" class="add-comment-btn">Add Comment</button>
 
             {{#each comments}}
             <div class="comment-div">
                 <h4 class="article-title">{{this.title}}</h4>
                 <p class="article-title">{{this.title}}</[]
                 <input type="hidden" name="delete-comment" value="true">
-                <button type="submit" class="delete-btn">Delete Comment</button>
+                <button type="submit" class="delete-comment-btn">Delete Comment</button>
                 </form>
             </div>
             {{/each}}
