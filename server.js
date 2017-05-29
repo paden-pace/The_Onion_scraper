@@ -39,16 +39,18 @@ app.set("view engine", "handlebars");
 
 // =========  Database configuration with mongoose ===============
 // ---------  define local MongoDB URI ----------
-
+var localMongo = "mongodb://localhost/OnionPeeler1";
 var databaseUri = 'mongodb://heroku_7787qsks:gp9jm8tkki1fks0g95rnac6of2@ds147551.mlab.com:47551/heroku_7787qsks';
 
-if (process.env.MONGODB_URI){
-    // this executes if this is being executed in heroku app
-    mongoose.connect(process.env.MONGODB_URI);
-} else {
-    // this ececutes if this is being executed on local machine
-    mongoose.connect(databaseUri);
-}
+mongoose.connect(localMongo);
+
+// if (process.env.MONGODB_URI){
+//     // this executes if this is being executed in heroku app
+//     mongoose.connect(process.env.MONGODB_URI);
+// } else {
+//     // this ececutes if this is being executed on local machine
+//     mongoose.connect(databaseUri);
+// }
 
 // =========  End databse configuration  ================
 
@@ -73,7 +75,11 @@ app.get('/', function (req, res) {
 });
 
 app.get('/saved', function (req, res) {
-        Savedarticle.find({}, function (error, doc) {
+        Savedarticle.find({}) 
+        
+        .populate("comments")
+
+        .exec(function (error, doc) {
         // Send any errors to the browser
         if (error) {
             res.send(error);
@@ -81,6 +87,7 @@ app.get('/saved', function (req, res) {
         // Or send the doc to the articles in handlebars
         else {
             res.render("saved", { articles: doc });
+            console.log(doc[0].comments[0].title);
         }
     })
 });
@@ -217,9 +224,56 @@ app.get("/delete/:id", function(req, res) {
 });
 
 
+// Create a new note or replace an existing note
+app.post("/comments/:id", function(req, res) {
+  // Create a new note and pass the req.body to the entry
+  var newComment = new Comment(req.body);
+
+  // And save the new note the db
+  newComment.save(function(error, doc) {
+    // Log any errors
+    if (error) {
+      console.log(error);
+    }
+    // Otherwise
+    else {
+      // Use the article id to find and update it's note
+      Savedarticle.findOneAndUpdate({ "_id": req.params.id }, {$push: {"comments": doc._id }})
+
+      // Execute the above query
+      .exec(function(err, doc) {
+        // Log any errors
+        if (err) {
+          console.log(err);
+        }
+        else {
+          // Or send the document to the browser
+          res.send(doc);
+        }
+      });
+    }
+  });
+});
 
 
-
+// Grab an article by it's ObjectId
+app.get("/comments/:id", function(req, res) {
+  // Using the id passed in the id parameter, prepare a query that finds the matching one in our db...
+  Article.findOne({ "_id": req.params.id })
+  // ..and populate all of the notes associated with it
+  .populate("comments")
+  // now, execute our query
+  .exec(function(error, doc) {
+    // Log any errors
+    if (error) {
+      console.log(error);
+    }
+    // Otherwise, send the doc to the browser as a json object
+    else {
+      res.json(doc);
+    }
+  });
+}); 
 
 
 // Listen on port 8001

@@ -1,0 +1,15 @@
+
+
+.nav-pills>li.active>a, .nav-pills>li.active>a:focus, .nav-pills>li.active>a:hover ,button, .btn-success{
+    background-color: #006b3a;
+    color: #ffffff;
+ }
+
+ body {
+     font-family:'Vidaloka', serif;
+ }
+
+ button, .btn-success{
+    background-color: #006b3a;
+    color: #ffffff;
+ }

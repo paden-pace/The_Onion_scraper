@@ -16,10 +16,9 @@
 
             {{#each comments}}
             <div class="comment-div">
-                <h4 class="article-title">{{this.title}}</h4>
-                <p class="article-title">{{this.title}}</[]
-                <input type="hidden" name="delete-comment" value="true">
-                <button type="submit" class="delete-comment-btn">Delete Comment</button>
+                <h4 class="article-title">{{this._id}}</h4>
+                <p class="article-title">{{this.body}}</p>
+                <button data-id="{{this.id}}" class="delete-comment-btn">Delete Comment</button>
                 </form>
             </div>
             {{/each}}
