@@ -40,17 +40,17 @@ app.set("view engine", "handlebars");
 // =========  Database configuration with mongoose ===============
 // ---------  define local MongoDB URI ----------
 var localMongo = "mongodb://localhost/OnionPeeler1";
-var databaseUri = 'mongodb://heroku_7787qsks:gp9jm8tkki1fks0g95rnac6of2@ds147551.mlab.com:47551/heroku_7787qsks';
+var MONGODB_URI = 'mongodb://heroku_7787qsks:gp9jm8tkki1fks0g95rnac6of2@ds147551.mlab.com:47551/heroku_7787qsks';
 
-mongoose.connect(localMongo);
+//mongoose.connect(localMongo);
 
-// if (process.env.MONGODB_URI){
-//     // this executes if this is being executed in heroku app
-//     mongoose.connect(process.env.MONGODB_URI);
-// } else {
-//     // this ececutes if this is being executed on local machine
-//     mongoose.connect(databaseUri);
-// }
+if (process.env.MONGODB_URI){
+    // this executes if this is being executed in heroku app
+    mongoose.connect(process.env.MONGODB_URI);
+} else {
+    // this ececutes if this is being executed on local machine
+    mongoose.connect(localMongo);
+}
 
 // =========  End databse configuration  ================
 
@@ -87,7 +87,7 @@ app.get('/saved', function (req, res) {
         // Or send the doc to the articles in handlebars
         else {
             res.render("saved", { articles: doc }); 
-            console.log(doc[0].comments);
+            //console.log(doc[0].comments);
         }
     })
 });
@@ -128,17 +128,17 @@ app.get("/scrape", function (req, res) {
     console.log("Scrape in Routes reached.")
 
     // First, we grab the body of the html with request
-    request("http://www.echojs.com/", function (error, response, html) {
+    request("http://www.theonion.com/", function (error, response, html) {
         // Then, we load that into cheerio and save it to $ for a shorthand selector
         var $ = cheerio.load(html);
         // Now, we grab every h2 within an article tag, and do the following:
-        $("article a").each(function (i, element) {
+        $("article.summary").each(function (i, element) {
 
             // Save an empty result object
             var result = {};
 
             // Add the text and href of every link, and save them as properties of the result object
-            result.title = $(this).children("a").text();
+            result.title = $(this).children("div").children("div").children("header").children("h2").text();
             result.link = $(this).children("a").attr("href");
 
             // Using our Article model, create a new entry
