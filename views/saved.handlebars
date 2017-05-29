@@ -1,24 +1,24 @@
 <div class="jumbotron">
     <h1>The Onion Peeler</h1>
     <p class="lead">Add comments to any of the saved articles below.</p>
-    <p class="lead">Or use the navigation bar to go to the home page.</p>
+    <p class="lead">Or use the navigation bar to go to the home page or scraped articles.</p>
 </div>
 
 <div class="all-div">
     {{#each articles}}
         <div class="article-div" >
             <h2 class="article-title">{{this.title}}</h2>
-            <h3 class="article-link">{{this.link}}</h3>
-            <button data-id='{{this.id}}' id='deletearticle'>Delete Article</button>
+            <h3 class="article-link"><a href="{{this.link}}">{{this.link}}</a></h3>
+            <button data-id='{{this.id}}' class='deletearticle'>Delete Article</button>
             <input id='titleinput-{{this.id}}' name='title' placeholder="New Comment Title">
             <textarea id='bodyinput-{{this.id}}' name='body' placeholder="New Comment Body"></textarea>
             <button data-id="{{this.id}}" type="submit" class="add-comment-btn">Add Comment</button>
 
             {{#each comments}}
             <div class="comment-div">
-                <h4 class="article-title">{{this._id}}</h4>
-                <p class="article-title">{{this.body}}</p>
-                <button data-id="{{this.id}}" class="delete-comment-btn">Delete Comment</button>
+                <h4 class="comment-title">{{this.title}}</h4>
+                <p class="comment-body">{{this.body}}</p>
+                <button data-id="{{this.id}}" class="deletecomment">Delete Comment</button>
                 </form>
             </div>
             {{/each}}

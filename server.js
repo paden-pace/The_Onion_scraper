@@ -86,8 +86,8 @@ app.get('/saved', function (req, res) {
         }
         // Or send the doc to the articles in handlebars
         else {
-            res.render("saved", { articles: doc });
-            console.log(doc[0].comments[0].title);
+            res.render("saved", { articles: doc }); 
+            console.log(doc[0].comments);
         }
     })
 });
@@ -132,7 +132,7 @@ app.get("/scrape", function (req, res) {
         // Then, we load that into cheerio and save it to $ for a shorthand selector
         var $ = cheerio.load(html);
         // Now, we grab every h2 within an article tag, and do the following:
-        $("article h2").each(function (i, element) {
+        $("article a").each(function (i, element) {
 
             // Save an empty result object
             var result = {};
@@ -274,6 +274,16 @@ app.get("/comments/:id", function(req, res) {
     }
   });
 }); 
+
+app.get("/deletecomment/:id", function(req, res) {
+  Comment.findByIdAndRemove(req.params.id, function (err, doc){
+    if(err) { 
+      throw err; 
+    } else {
+      res.redirect('/saved');
+    };
+  });
+});
 
 
 // Listen on port 8001

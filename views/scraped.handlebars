@@ -1,14 +1,13 @@
 <div class="jumbotron">
     <h1>The Onion Peeler</h1>
-    <p class="lead">Press the button to find articles from The Onion.</p>
+    <p class="lead">Save articles for comments later.</p>
     <p class="lead">Or use the navigation bar to see saved articles and comments.</p>
-    <button class="btn btn-success" id="scrape-btn">Scrape Articles</button>
 </div>
 <div class="all-div">
     {{#each articles}}
         <div class="article-div" >
             <h3 class="article-title">{{this.title}}</h3>
-            <h4 class="article-link">{{this.link}}</h4>
+            <h4 class="article-link"><a href="{{this.link}}">{{this.link}}</a></h4>
             <button data-id='{{this.id}}' id='savearticle'>Save Article</button>
         </div>
     {{/each}}

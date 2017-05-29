@@ -3,13 +3,72 @@
 .nav-pills>li.active>a, .nav-pills>li.active>a:focus, .nav-pills>li.active>a:hover ,button, .btn-success{
     background-color: #006b3a;
     color: #ffffff;
+    margin: 10px 5px;
  }
 
  body {
      font-family:'Vidaloka', serif;
+     background-color: #000000;
+ }
+
+ .container{
+     background-color: #ffffff;
  }
 
  button, .btn-success{
     background-color: #006b3a;
     color: #ffffff;
+ }
+ 
+ a {
+     color: #006b3a;
+ }
+
+ a:hover{
+     color: #b4d6b7;
+ }
+
+.header, .clearfix{
+     border-top: solid 2px #000000;
+     border-bottom: solid 2px #000000;
+     background-color: #b4d6b7;
+     margin: 10px -15px;
+     padding: 0px 20px;
+}
+
+ .footer{
+     display: inline-block;
+     width: 100%;
+     margin: 40px 0px;
+     padding: 5px 0px;
+     border-top: solid 2px #000000;
+     border-bottom: solid 2px #000000;
+     text-align: center;
+     background-color: #b4d6b7;
+ }
+
+  .footer>p{
+      margin: 0px;
+  }
+
+.article-div{
+     border-bottom: solid 2px #000000;
+ }
+
+.comment-div{
+    margin-top: 10px;
+    padding: 0px 0px 10px 0px;
+     border: solid 2px #000000;
+     background-color: #dadada;
+ }
+
+.comment-title{
+     margin-top: 0px;
+     padding: 10px 5px;
+     border-bottom: solid 2px #000000;
+     background-color: #b4d6b7;
+ }
+
+ .comment-body{
+     padding: 10px 5px;
  }
