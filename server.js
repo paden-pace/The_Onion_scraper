@@ -40,7 +40,7 @@ app.set("view engine", "handlebars");
 // =========  Database configuration with mongoose ===============
 // ---------  define local MongoDB URI ----------
 var localMongo = "mongodb://localhost/OnionPeeler1";
-var MONGODB_URI = 'mongodb://heroku_7787qsks:gp9jm8tkki1fks0g95rnac6of2@ds147551.mlab.com:47551/heroku_7787qsks';
+var MONGODB_URI = 'mongodb://<dbuser>:<dbpassword>@ds151059.mlab.com:51059/heroku_3b1g6fml';
 
 //mongoose.connect(localMongo);
 
