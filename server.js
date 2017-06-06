@@ -286,7 +286,7 @@ app.get("/deletecomment/:id", function(req, res) {
 });
 
 
-// Listen on port 8001
-app.listen(8001, function() {
-  console.log("App running on port 8001");
+
+app.listen(process.env.PORT || 8001, function(){
+  console.log("Express server listening on port %d in %s mode", this.address().port, app.settings.env);
 });
